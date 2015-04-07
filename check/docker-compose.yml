@@ -6,6 +6,8 @@ riemann:
     - "5555:5555"
     - "5555:5555/udp"
     - "5556:5556"
+  volumes:
+    - config:/app/etc
 
 riemanndash:
   image: davidkelley/riemann-dash
