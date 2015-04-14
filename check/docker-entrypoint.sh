@@ -7,7 +7,7 @@ case "$1" in
     "check")
         shift
         OPTIONS="$@"
-        exec check ${OPTIONS}
+        exec /go/bin/app ${OPTIONS}
     ;;
 esac
 exec "$@"

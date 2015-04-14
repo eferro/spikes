@@ -1,3 +1,6 @@
+check:
+  build: .
+  net: host
 
 riemann:
   image: rlister/riemann
