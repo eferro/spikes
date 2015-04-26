@@ -13,7 +13,7 @@ riemann:
     - config:/app/etc
 
 riemanndash:
-  image: davidkelley/riemann-dash
+  image: aleasoluciones/riemann-dash
   net: host
   ports:
     - "4567:4567"
