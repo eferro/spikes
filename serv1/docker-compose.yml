@@ -1,13 +1,17 @@
 pyapp:
   restart: always
-  image: pyapp
+  image: pyapp:1.1
   volumes:
     - /etc/localtime:/etc/localtime:ro
 
 nginx:
   restart: always
   image: nginx
+  links:
+    - pyapp
+  ports:
+    - 3000:80
   volumes:
     - /etc/localtime:/etc/localtime:ro
-    - nginxsite.conf:/etc/nginx/nginx.conf:ro
+    - ./nginxsite.conf:/etc/nginx/nginx.conf:ro
 
