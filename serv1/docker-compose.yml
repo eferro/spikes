@@ -1,0 +1,13 @@
+pyapp:
+  restart: always
+  image: pyapp
+  volumes:
+    - /etc/localtime:/etc/localtime:ro
+
+nginx:
+  restart: always
+  image: nginx
+  volumes:
+    - /etc/localtime:/etc/localtime:ro
+    - nginxsite.conf:/etc/nginx/nginx.conf:ro
+
