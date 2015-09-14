@@ -18,12 +18,14 @@ type Circle struct {
 }
 
 type Command struct {
-	ID string `json:"id"`
+	ID          string `json:"id"`
+	CommandName string `json:"command_name"`
 }
 
 type CreateDecisionSession struct {
-	ID   string `json:"id"`
-	Name string `json:"name"`
+	Command
+	Name                     string `json:"name"`
+	NumParticipantsPerCircle int    `json:"num_per_circle"`
 }
 
 type DecisionSession struct {
@@ -39,6 +41,18 @@ func NewDecisionSessionFromHistory() *DecisionSession {
 	return &DecisionSession{}
 }
 
+type DecisionSessionService struct {
+}
+
+func NewDecisionSessionService() *DecisionSessionService {
+	return &DecisionSessionService{}
+}
+
+func (serv *DecisionSessionService) ProcessCommand(cmd interface{}) {
+	fmt.Println("Service", cmd)
+
+}
+
 func main() {
 
 	lines := make(chan string, 1)
@@ -49,6 +63,8 @@ func main() {
 		}
 	}()
 
+	service := NewDecisionSessionService()
+
 	go func() {
 		for line := range lines {
 			if line != "" {
@@ -56,7 +72,7 @@ func main() {
 				if err := json.Unmarshal([]byte(line), &cmd); err != nil {
 					fmt.Println("Error", err)
 				} else {
-					fmt.Println("Command", cmd)
+					service.ProcessCommand(cmd)
 				}
 			}
 		}
