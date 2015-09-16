@@ -1,18 +1,34 @@
 package main
 
+import (
+	"time"
+)
+
+type Timestamp time.Time
+
+type Event struct {
+	ID        string
+	CommandID string
+	Timestamp Timestamp
+}
+
 type DecisionSessionCreated struct {
-	Name         string
+	Event
+	Name string
 }
 
 type ParticipantAdded struct {
-     Name string
+	Event
+	Name string
 }
 
 type CircleCreated struct {
-     Name string
+	Event
+	Name string
 }
 
 type ParticipantAddedToCircle struct {
-     ParticipantName string
-     CircleName string
+	Event
+	ParticipantName string
+	CircleName      string
 }
