@@ -1,0 +1,12 @@
+
+riemann:
+  restart: always
+  image: aleasoluciones/riemann
+  ports:
+    - "5555:5555"
+    - "5555:5555/udp"
+    - "5556:5556"
+  volumes:
+    - /etc/localtime:/etc/localtime:ro
+    - /config:/app/etc
+
