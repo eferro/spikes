@@ -8,5 +8,5 @@ riemann:
     - "5556:5556"
   volumes:
     - /etc/localtime:/etc/localtime:ro
-    - /config:/app/etc
+    - ./config:/app/etc
 
