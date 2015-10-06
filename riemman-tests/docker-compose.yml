@@ -1,7 +1,7 @@
 
 riemann:
   restart: always
-  image: aleasoluciones/riemann
+  image: rlister/riemann
   ports:
     - "5555:5555"
     - "5555:5555/udp"
