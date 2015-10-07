@@ -9,4 +9,4 @@ riemann:
   volumes:
     - /etc/localtime:/etc/localtime:ro
     - ./config:/app/etc
-
+    - ./logs/:/var/log/riemann/
