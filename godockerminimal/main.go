@@ -1,15 +1,16 @@
 package main
 
 import (
-       "fmt"
        "time"
+
+       "github.com/kr/pretty"
 
 )
 
 
 func main() {
      for {
-     	 fmt.Println("Hello world")
+     	 pretty.Println("Hello world")
 	 time.Sleep(5 * time.Second)
      }
 }
