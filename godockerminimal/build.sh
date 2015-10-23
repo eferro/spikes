@@ -10,7 +10,7 @@ SRC_DIR=/go/src/github.com/aleasoluciones/godockerminimal
 WORKDIR=/tmp/$(hostname)
 mkdir -p ${WORKDIR}
 cp -a . ${WORKDIR}
-docker run -v ${WORKDIR}:${SRC_DIR} -e CGO_ENABLED=0 -e GOOS=linux -ti golang bash -c "cd ${SRC_DIR};go build -a -installsuffix cgo ."
+docker run --rm -v ${WORKDIR}:${SRC_DIR} -e CGO_ENABLED=0 -e GOOS=linux golang bash -c "cd ${SRC_DIR};go build -a -installsuffix cgo ."
 cp -v ${WORKDIR}/godockerminimal .
 docker build  --no-cache -t aleasoluciones/godockerminimal .
 
