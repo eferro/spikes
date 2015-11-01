@@ -2,17 +2,16 @@
 
 import os
 import logging
+import tornadoredis
 import pika
 import tornado.ioloop
 import tornado.options
 from tornado import web
 
-class MainHandler(web.RequestHandler):
-    def initialize(self):
-        pass
 
-    def get(self):
-        self.write("Hello, world")
+c = tornadoredis.Client()
+c.connect()
+
 
 class AsyncAmqpConsumer(object):
     EXCHANGE_TYPE = 'topic'
@@ -155,7 +154,19 @@ class AsyncAmqpConsumer(object):
 
 class MessageProcessor(object):
     def process(self, message, delivery_tag):
-        print "Process", message, delivery_tag        
+        print "Process", message, delivery_tag
+        yield tornado.gen.Task(c.incr, 'num_events')
+        
+class MainHandler(web.RequestHandler):
+    def initialize(self):
+        pass
+
+    def get(self):
+        print "INI1"        
+        value = yield tornado.gen.Task(c.incr, 'num_events')
+        print "INI2", value, type(value)
+        self.write("Hello, world %d" % value)
+        
         
 address = os.getenv('SERVER_ADDRESS', '127.0.0.1')
 port = os.getenv('SERVER_PORT', 3000)
@@ -165,6 +176,8 @@ if __name__ == '__main__':
     tornado.options.parse_command_line()
 
     application = web.Application([ (r'/', MainHandler), ])
+    application.listen(port, address, xheaders=True)
+    
     consumer = AsyncAmqpConsumer(
         os.environ['BROKER_URI'],
         os.environ['EXCHANGE'],
@@ -172,6 +185,7 @@ if __name__ == '__main__':
         os.environ['QUEUE'],
         MessageProcessor())
     try:
+
         consumer.run()        
         tornado.ioloop.IOLoop.instance().start()
     except KeyboardInterrupt:
