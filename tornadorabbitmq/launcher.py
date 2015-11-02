@@ -159,13 +159,14 @@ class MessageProcessor(object):
         
 class MainHandler(web.RequestHandler):
     def initialize(self):
-        pass
+        print "initialize"
 
     def get(self):
-        print "INI1"        
-        value = yield tornado.gen.Task(c.incr, 'num_events')
+        print "INI1"
+        value = yield tornado.gen.Task(c.get, 'num_events')
         print "INI2", value, type(value)
-        self.write("Hello, world %d" % value)
+        #self.write("Hello, world %d" % value)
+        self.write("Hello, world")
         
         
 address = os.getenv('SERVER_ADDRESS', '127.0.0.1')
@@ -175,7 +176,7 @@ port = os.getenv('SERVER_PORT', 3000)
 if __name__ == '__main__':
     tornado.options.parse_command_line()
 
-    application = web.Application([ (r'/', MainHandler), ])
+    application = web.Application([ (r'/', MainHandler, dict()), ], debug=True)
     application.listen(port, address, xheaders=True)
     
     consumer = AsyncAmqpConsumer(
