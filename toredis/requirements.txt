@@ -1,0 +1,3 @@
+toredis==0.1.2
+tornado==4.3
+nose
