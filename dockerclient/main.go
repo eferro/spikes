@@ -34,14 +34,8 @@ func main() {
 		log.Panic("Failed to add event listener: %s", err)
 	}
 
-	timeout := time.After(30 * time.Second)
-	for {
-		select {
-		case msg := <-listener:
-			fmt.Println("Received: %v", *msg)
-		case <-timeout:
-			log.Panic("%s timed out waiting on events")
-		}
+	for e := range listener {
+		fmt.Println("Received: %v", *e)
 	}
 
 }
